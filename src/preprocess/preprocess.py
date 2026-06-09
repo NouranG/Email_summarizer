@@ -1,5 +1,12 @@
 import re
 from bs4 import BeautifulSoup
+from email import message_from_bytes
+import base64
+
+def decode_email(raw_message):
+        raw = raw_message["raw"]
+        decoded = base64.urlsafe_b64decode(raw)
+        return message_from_bytes(decoded)
 
 
 class Preprocessor:
@@ -8,7 +15,7 @@ class Preprocessor:
         self.email_message = email_message
 
     def parse(self):
-        html_content = None
+        html_content = ""
 
         for part in self.email_message.walk():
 
